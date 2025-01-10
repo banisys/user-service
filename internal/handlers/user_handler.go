@@ -17,6 +17,7 @@ func NewUserHandler(userService *services.UserService) *UserHandler {
 }
 
 func (h *UserHandler) Signup(context *gin.Context) {
+
 	var user models.User
 
 	err := context.ShouldBindJSON(&user)
@@ -32,4 +33,5 @@ func (h *UserHandler) Signup(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+
 }
