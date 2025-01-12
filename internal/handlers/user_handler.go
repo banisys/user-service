@@ -1,19 +1,21 @@
 package handlers
 
 import (
-	"github.com/banisys/user-service/internal/models"
-	"github.com/banisys/user-service/internal/services"
 	"net/http"
 
+	"github.com/banisys/user-service/internal/models"
+	"github.com/banisys/user-service/internal/services"
 	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
-	UserService *services.UserService
+	UserService services.UserService
 }
 
-func NewUserHandler(userService *services.UserService) *UserHandler {
-	return &UserHandler{UserService: userService}
+func NewUserHandler(service services.UserService) *UserHandler {
+	return &UserHandler{
+		UserService: service,
+	}
 }
 
 func (h *UserHandler) Signup(context *gin.Context) {
@@ -26,7 +28,7 @@ func (h *UserHandler) Signup(context *gin.Context) {
 		return
 	}
 
-	err = h.UserService.CreateUser(&user)
+	err = h.UserService.Create(&user)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not save user."})
 		return
