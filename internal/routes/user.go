@@ -10,8 +10,8 @@ import (
 
 func RegisterRoutes(route *gin.Engine) {
 
-	userRepository := repositories.NewUserRepositoryImpl(database.DB)
-	userService := services.NewUserServiceImpl(userRepository)
+	userRepository := repositories.NewUserRepository(database.DB)
+	userService := services.NewUserService(userRepository)
 	userHandler := handlers.NewUserHandler(userService)
 
 	route.POST("/signup", userHandler.Signup)
