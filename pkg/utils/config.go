@@ -12,6 +12,8 @@ func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigFile(".env")
 
+	viper.SetDefault("DB_URL", "pkg/database/database.db")
+
 	viper.AutomaticEnv()
 
 	err = viper.ReadInConfig()
