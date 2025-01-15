@@ -3,14 +3,20 @@ package database
 import (
 	"database/sql"
 
+	"github.com/banisys/user-service/pkg/utils"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/zerolog/log"
 )
 
 var DB *sql.DB
 
 func init() {
-	var err error
-	DB, err = sql.Open("sqlite3", "pkg/database/database.db")
+	config, err := utils.LoadConfig(".")
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot load config")
+	}
+
+	DB, err = sql.Open("sqlite3", config.DatabaseUrl)
 
 	if err != nil {
 		panic(err)

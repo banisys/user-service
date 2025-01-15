@@ -1,3 +1,4 @@
+.env
 tmp
 pkg/database/database.db
 pkg/database/database.sqlite
