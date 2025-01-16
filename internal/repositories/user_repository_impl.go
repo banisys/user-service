@@ -1,10 +1,10 @@
 package repositories
 
 import (
-	"github.com/banisys/user-service/internal/models"
-
 	"database/sql"
+	"errors"
 
+	"github.com/banisys/user-service/internal/models"
 	"github.com/banisys/user-service/pkg/utils"
 )
 
@@ -44,4 +44,20 @@ func (r *UserRepositoryImpl) Save(user *models.User) error {
 	user.ID = userId
 
 	return nil
+}
+
+func (r *UserRepositoryImpl) GetUserByEmail(email string) (*models.User, error) {
+	query := "SELECT id, password FROM users WHERE email = ?"
+	row := r.DB.QueryRow(query, email)
+
+	user := &models.User{}
+	err := row.Scan(&user.ID, &user.Password)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
+	}
+
+	return user, nil
 }
