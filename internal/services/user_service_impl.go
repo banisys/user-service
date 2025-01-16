@@ -55,3 +55,10 @@ func (u *UserServiceImpl) GenerateToken(email string, userId int64) (string, err
 
 	return token.SignedString([]byte(secretKey))
 }
+
+func (u *UserServiceImpl) UpdateUser(user *models.User) error {
+	if err := u.UserRepository.Update(user); err != nil {
+		return err
+	}
+	return nil
+}

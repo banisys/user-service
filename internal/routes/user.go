@@ -17,4 +17,6 @@ func RegisterRoutes(route *gin.Engine) {
 	route.POST("/signup", userHandler.Signup)
 	route.POST("/login", userHandler.Login)
 
+	route.PUT("/users/:id", userHandler.Update)
+
 }

@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/banisys/user-service/internal/models"
+	"github.com/banisys/user-service/pkg/database"
 	"github.com/banisys/user-service/pkg/utils"
 )
 
@@ -18,7 +19,7 @@ func NewUserRepository(db *sql.DB) UserRepository {
 
 func (r *UserRepositoryImpl) Save(user *models.User) error {
 
-	query := "INSERT INTO users(email, password) VALUES (?, ?)"
+	query := "INSERT INTO users(name, email, password) VALUES (?, ?, ?)"
 	stmt, err := r.DB.Prepare(query)
 
 	if err != nil {
@@ -31,7 +32,7 @@ func (r *UserRepositoryImpl) Save(user *models.User) error {
 		return err
 	}
 
-	result, err := stmt.Exec(user.Email, hashedPassword)
+	result, err := stmt.Exec(user.Name, user.Email, hashedPassword)
 	if err != nil {
 		return err
 	}
@@ -60,4 +61,18 @@ func (r *UserRepositoryImpl) GetUserByEmail(email string) (*models.User, error) 
 	}
 
 	return user, nil
+}
+
+func (r *UserRepositoryImpl) Update(user *models.User) error {
+	query := `UPDATE users SET name = ? WHERE id = ?`
+	stmt, err := database.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(user.Name, user.ID)
+	return err
 }
