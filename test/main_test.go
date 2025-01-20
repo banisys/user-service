@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -9,8 +8,6 @@ import (
 )
 
 func TestMain(m *testing.M) {
-
-	fmt.Println("11111111")
 
 	gin.SetMode(gin.TestMode)
 	setupTestEnvironment()
