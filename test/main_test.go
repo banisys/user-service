@@ -10,18 +10,18 @@ import (
 func TestMain(m *testing.M) {
 
 	gin.SetMode(gin.TestMode)
-	setupTestEnvironment()
+	// setupTestEnvironment()
 
 	exitCode := m.Run()
-	teardown()
+	// teardown()
 
 	os.Exit(exitCode)
 }
 
-func setupTestEnvironment() {
-	os.Setenv("ENV", "test")
-}
+// func setupTestEnvironment() {
+// 	os.Setenv("ENV", "test")
+// }
 
-func teardown() {
-	os.Unsetenv("ENV")
-}
+// func teardown() {
+// 	os.Unsetenv("ENV")
+// }

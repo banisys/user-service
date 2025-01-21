@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/banisys/user-service/internal/models"
@@ -23,6 +24,7 @@ func NewUserService(userRepository repositories.UserRepository) UserService {
 }
 
 func (u *UserServiceImpl) Create(user *models.User) error {
+	fmt.Println("888888")
 	if err := u.UserRepository.Save(user); err != nil {
 		return err
 	}

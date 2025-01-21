@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"github.com/banisys/user-service/internal/models"
 	"github.com/banisys/user-service/pkg/database"
@@ -23,8 +24,10 @@ func (r *UserRepositoryImpl) Save(user *models.User) error {
 	stmt, err := r.DB.Prepare(query)
 
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
+
 	defer stmt.Close()
 
 	hashedPassword, err := utils.HashPassword(user.Password)

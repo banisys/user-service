@@ -2,38 +2,32 @@ package test
 
 import (
 	"bytes"
-	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"testing"
+
+	"github.com/banisys/user-service/internal/routes"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestSignupUser(t *testing.T) {
+func TestSignupRoute(t *testing.T) {
+	// Initialize the router from the main application
+	route := gin.Default()
+	routes.RegisterRoutes(route)
 
-	requestURL := fmt.Sprintf("http://localhost:%d", 8080)
-
-	// JSON body
-	body := []byte(`{
-		"email": "ass1@a.com",
-		"password": "111"
-	}`)
-
-	// Create a HTTP post request
-	r, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(body))
+	// Prepare test data
+	testBody := []byte(`{"email":"test@example.com","password":"123"}`)
+	req, err := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(testBody))
 	if err != nil {
-		panic(err)
+		t.Fatalf("Could not create request: %v", err)
 	}
+	req.Header.Set("Content-Type", "application/json")
 
-	r.Header.Add("Content-Type", "application/json")
+	// Record the response
+	recorder := httptest.NewRecorder()
+	route.ServeHTTP(recorder, req)
 
-	client := &http.Client{}
-	res, err := client.Do(r)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(res)
-
-	defer res.Body.Close()
-	// assert.Equal(t, , 13, "they should be equal")
-
+	// Assertions
+	assert.Equal(t, http.StatusCreated, recorder.Code) // Check status code
 }
