@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -29,13 +28,12 @@ func (h *UserHandler) Signup(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
 	}
-	fmt.Println("1111111")
+
 	err = h.UserService.Create(&user)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not save user."})
 		return
 	}
-	fmt.Println("222222222")
 
 	context.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 

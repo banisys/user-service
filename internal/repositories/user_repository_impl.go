@@ -3,11 +3,11 @@ package repositories
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	"github.com/banisys/user-service/internal/models"
 	"github.com/banisys/user-service/pkg/database"
 	"github.com/banisys/user-service/pkg/utils"
+	"github.com/rs/zerolog/log"
 )
 
 type UserRepositoryImpl struct {
@@ -24,8 +24,8 @@ func (r *UserRepositoryImpl) Save(user *models.User) error {
 	stmt, err := r.DB.Prepare(query)
 
 	if err != nil {
-		fmt.Println(err)
-		return err
+		log.Fatal().Err(err).Msg("cannot query prepare")
+
 	}
 
 	defer stmt.Close()
@@ -37,12 +37,12 @@ func (r *UserRepositoryImpl) Save(user *models.User) error {
 
 	result, err := stmt.Exec(user.Name, user.Email, hashedPassword)
 	if err != nil {
-		return err
+		log.Fatal().Err(err).Msg("cannot query execute")
 	}
 
 	userId, err := result.LastInsertId()
 	if err != nil {
-		return err
+		log.Error().Err(err)
 	}
 
 	user.ID = userId

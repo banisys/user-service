@@ -8,4 +8,4 @@ migratedown:
 	migrate -path ./pkg/database/migrations -database "sqlite3://pkg/database/database.db" -verbose down
 
 test run:
-	go test ./test/... -v
+	go test ./test/... -v -count=1
