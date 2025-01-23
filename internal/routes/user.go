@@ -11,7 +11,7 @@ import (
 
 func RegisterRoutes(route *gin.Engine) {
 
-	userRepository := repositories.NewUserRepository(database.DB)
+	userRepository := repositories.NewUserRepository(database.DB())
 	userService := services.NewUserService(userRepository)
 	userHandler := handlers.NewUserHandler(userService)
 

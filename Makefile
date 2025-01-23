@@ -9,3 +9,6 @@ migratedown:
 
 test run:
 	go test ./test/... -v -count=1
+
+dev:
+	go run ./cmd/user-service

@@ -5,7 +5,6 @@ import (
 	"errors"
 
 	"github.com/banisys/user-service/internal/models"
-	"github.com/banisys/user-service/pkg/database"
 	"github.com/banisys/user-service/pkg/utils"
 	"github.com/rs/zerolog/log"
 )
@@ -68,7 +67,7 @@ func (r *UserRepositoryImpl) GetUserByEmail(email string) (*models.User, error) 
 
 func (r *UserRepositoryImpl) Update(user *models.User) error {
 	query := `UPDATE users SET name = ? WHERE id = ?`
-	stmt, err := database.DB.Prepare(query)
+	stmt, err := r.DB.Prepare(query)
 
 	if err != nil {
 		return err

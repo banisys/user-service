@@ -8,9 +8,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-var DB *sql.DB
-
-func init() {
+func DB() (DB *sql.DB) {
 	config, err := utils.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
@@ -24,4 +22,6 @@ func init() {
 
 	DB.SetMaxOpenConns(10)
 	DB.SetMaxIdleConns(5)
+
+	return
 }

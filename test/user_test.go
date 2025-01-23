@@ -33,7 +33,6 @@ func migrateDatabase() {
 }
 
 func TestSignup(t *testing.T) {
-
 	migrateDatabase()
 
 	route := gin.Default()

@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"os"
+
 	"github.com/spf13/viper"
 )
 
@@ -9,8 +11,14 @@ type Config struct {
 }
 
 func LoadConfig(path string) (config Config, err error) {
+
+	configFile := ".env"
+	if os.Getenv("GO_ENV") == "test" {
+		configFile = "../test.env"
+	}
+
 	viper.AddConfigPath(path)
-	viper.SetConfigFile(".env")
+	viper.SetConfigFile(configFile)
 
 	viper.SetDefault("DB_URL", "pkg/database/database.db")
 
