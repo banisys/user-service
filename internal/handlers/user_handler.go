@@ -21,6 +21,8 @@ type UserHandler struct {
 
 func (h *UserHandler) Signup(context *gin.Context) {
 
+	// fmt.Println("########################")
+
 	var user models.User
 
 	err := context.ShouldBindJSON(&user)
