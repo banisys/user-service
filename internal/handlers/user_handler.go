@@ -1,12 +1,20 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/banisys/user-service/internal/models"
 	"github.com/banisys/user-service/internal/services"
+	"github.com/banisys/user-service/pkg/database"
+	"github.com/banisys/user-service/pkg/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
+
+	"context"
+
+	pb "github.com/banisys/user-service/user_service_grpc"
 )
 
 func NewUserHandler(service services.UserService) *UserHandler {
@@ -19,25 +27,46 @@ type UserHandler struct {
 	UserService services.UserService
 }
 
-func (h *UserHandler) Signup(context *gin.Context) {
+type Server struct {
+	pb.UnimplementedUserServiceServer
+}
 
-	// fmt.Println("########################")
+func (s *Server) Signup(_ context.Context, in *pb.UserServiceReq) (*pb.UserServiceRes, error) {
 
 	var user models.User
 
-	err := context.ShouldBindJSON(&user)
+	user.Name = in.GetName()
+	user.Email = in.GetEmail()
+	user.Password = in.GetPassword()
+
+	query := "INSERT INTO users(name, email, password) VALUES (?, ?, ?)"
+	stmt, err := database.DB().Prepare(query)
+
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
-		return
+		log.Fatal().Err(err).Msg("cannot query prepare")
+
 	}
 
-	err = h.UserService.Create(&user)
+	defer stmt.Close()
+
+	hashedPassword, err := utils.HashPassword(user.Password)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not save user."})
-		return
+		return &pb.UserServiceRes{Message: "err"}, err
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+	result, err := stmt.Exec(user.Name, user.Email, hashedPassword)
+
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot query execute")
+	}
+
+	if err != nil {
+		log.Error().Err(err)
+	}
+
+	fmt.Println(result)
+
+	return &pb.UserServiceRes{Message: "User created successfully"}, nil
 
 }
 

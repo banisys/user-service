@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "github.com/banisys/user-service/proto/user;userpb";
+
+
+package user_service;
+
+
+service UserService {
+  rpc Signup (UserServiceReq) returns (UserServiceRes) {}
+}
+
+message UserServiceReq {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message UserServiceRes {
+  string message = 1;
+}

@@ -15,7 +15,7 @@ func RegisterRoutes(route *gin.Engine) {
 	userService := services.NewUserService(userRepository)
 	userHandler := handlers.NewUserHandler(userService)
 
-	route.POST("/signup", userHandler.Signup)
+	// route.POST("/signup", userHandler.Signup)
 	route.POST("/login", userHandler.Login)
 
 	auth := route

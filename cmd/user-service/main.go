@@ -1,14 +1,32 @@
 package main
 
 import (
-	"github.com/banisys/user-service/internal/routes"
-	"github.com/gin-gonic/gin"
+	"flag"
+	"log"
+	"net"
+
+	"github.com/banisys/user-service/internal/handlers"
+	"google.golang.org/grpc"
+
+	pb "github.com/banisys/user-service/user_service_grpc"
 )
 
 func main() {
-	route := gin.Default()
 
-	routes.RegisterRoutes(route)
+	flag.Parse()
+	lis, err := net.Listen("tcp", "localhost:50051")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
 
-	route.Run(":8080")
+	server := grpc.NewServer()
+
+	pb.RegisterUserServiceServer(server, &handlers.Server{})
+
+	log.Printf("server listening at %v", lis.Addr())
+
+	if err := server.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
+
 }
