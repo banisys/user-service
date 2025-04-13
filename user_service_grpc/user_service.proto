@@ -18,4 +18,5 @@ message UserServiceReq {
 
 message UserServiceRes {
   string message = 1;
+  int64 user_id = 2;
 }

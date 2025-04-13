@@ -12,3 +12,6 @@ test run:
 
 dev:
 	go run ./cmd/user-service
+
+proto:
+	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative user_service_grpc/user_service.proto

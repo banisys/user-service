@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -64,9 +63,12 @@ func (s *Server) Signup(_ context.Context, in *pb.UserServiceReq) (*pb.UserServi
 		log.Error().Err(err)
 	}
 
-	fmt.Println(result)
+	userId, _ := result.LastInsertId()
 
-	return &pb.UserServiceRes{Message: "User created successfully"}, nil
+	return &pb.UserServiceRes{
+		Message: "User created successfully",
+		UserId:  userId,
+	}, nil
 
 }
 

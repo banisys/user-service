@@ -8,13 +8,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func DB() (DB *sql.DB) {
+func DB() *sql.DB {
 	config, err := utils.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
 	}
 
-	DB, err = sql.Open("sqlite3", config.DatabaseUrl)
+	DB, err := sql.Open("sqlite3", config.DatabaseUrl)
 
 	if err != nil {
 		panic(err)
@@ -23,5 +23,5 @@ func DB() (DB *sql.DB) {
 	DB.SetMaxOpenConns(10)
 	DB.SetMaxIdleConns(5)
 
-	return
+	return DB
 }

@@ -84,6 +84,7 @@ func (x *UserServiceReq) GetPassword() string {
 type UserServiceRes struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -125,6 +126,13 @@ func (x *UserServiceRes) GetMessage() string {
 	return ""
 }
 
+func (x *UserServiceRes) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
 var File_user_service_grpc_user_service_proto protoreflect.FileDescriptor
 
 const file_user_service_grpc_user_service_proto_rawDesc = "" +
@@ -133,9 +141,10 @@ const file_user_service_grpc_user_service_proto_rawDesc = "" +
 	"\x0eUserServiceReq\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x03 \x01(\tR\bpassword\"*\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\"C\n" +
 	"\x0eUserServiceRes\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2U\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId2U\n" +
 	"\vUserService\x12F\n" +
 	"\x06Signup\x12\x1c.user_service.UserServiceReq\x1a\x1c.user_service.UserServiceRes\"\x00B3Z1github.com/banisys/user-service/proto/user;userpbb\x06proto3"
 
