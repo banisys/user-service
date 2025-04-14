@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"log"
 	"net"
 
@@ -13,7 +12,6 @@ import (
 
 func main() {
 
-	flag.Parse()
 	lis, err := net.Listen("tcp", "localhost:50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
