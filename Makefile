@@ -15,3 +15,7 @@ dev:
 
 proto:
 	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative user_service_grpc/user_service.proto
+
+n ?= 5
+create_fake_user:
+	go run cmd/factory/user_factory.go -n $(n)

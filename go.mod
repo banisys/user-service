@@ -3,6 +3,7 @@ module github.com/banisys/user-service
 go 1.23.3
 
 require (
+	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/golang-migrate/migrate/v4 v4.18.1

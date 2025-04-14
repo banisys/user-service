@@ -21,6 +21,6 @@ func RegisterRoutes(route *gin.Engine) {
 	auth := route
 	auth.Use(middlewares.Authenticate)
 
-	auth.PUT("/users/:id", userHandler.Update)
+	auth.PUT("/users/:id", userHandler.Update) //auth -> permission edit users -> not admin
 
 }

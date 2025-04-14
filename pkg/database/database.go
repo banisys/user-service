@@ -9,6 +9,7 @@ import (
 )
 
 func DB() *sql.DB {
+
 	config, err := utils.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
